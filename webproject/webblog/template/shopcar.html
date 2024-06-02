@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Order System</title>
+    <style>
+    * {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+body {
+  background-color: #fff;
+  font-family: Montserrat;
+  overflow-x: hidden;
+}
+
+article,
+aside,
+details,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+  text-decoration: none;
+}
+
+img {
+  border: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.bg-illustration {
+  position: relative;
+  height: 100vh;
+  width: 1194px;
+  background: url("https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80 387w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80 687w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80 774w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80 987w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80 1287w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80 1374w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1587&q=80 1587w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80 1887w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80 1974w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2187&q=80 2187w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2487&q=80 2487w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80 2574w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80 2787w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3087&q=80 3087w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3174&q=80 3174w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3387&q=80 3387w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3687&q=80 3687w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3774&q=80 3774w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3987&q=80 3987w, https://images.unsplash.com/photo-1562118465-ee73fb7610a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=4000&q=80 4000w") no-repeat center center scroll;
+  background-size: cover;
+  float: left;
+  -webkit-animation: bgslide 2.3s forwards;
+          animation: bgslide 2.3s forwards;
+}
+.bg-illustration img {
+  width: 248px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  height: auto;
+  margin: 19px 0 0 25px;
+}
+
+@-webkit-keyframes bgslide {
+  from {
+    left: -100%;
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    width: 1194px;
+    opacity: 1;
+  }
+}
+
+@keyframes bgslide {
+  from {
+    left: -100%;
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    width: 1194px;
+    opacity: 1;
+  }
+}
+
+
+.login {
+  max-height: 100vh;
+  float: left;
+  margin: 0 auto;
+  width: calc(100% - 1194px);
+}
+.login .container {
+  width: 505px;
+  margin: 0 auto;
+  position: relative;
+}
+.login .container h1 {
+  margin-top: 40px;
+  font-size: 35px;
+  font-weight: bolder;
+}
+.login .container .login-form {
+  margin-top: 112px;
+}
+.login .container .login-form form {
+  display: -ms-grid;
+  display: grid;
+}
+.login .container .login-form form input {
+  font-size: 16px;
+  font-weight: normal;
+  background: rgba(57, 57, 57, 0.07);
+  margin: 12.5px 0;
+  height: 68px;
+  border: none;
+  padding: 0 30px;
+  border-radius: 10px;
+}
+.login .container .login-form form button[type=submit] {
+  background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+  background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+  background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
+  border: none;
+  margin-top: 124px;
+  margin-bottom: 20px;
+  width: 241px;
+  height: 58px;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 10px;
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 20px;
+}
+.login .container .login-form form button[type=submit]:hover::after {
+  opacity: 1;
+}
+.login .container .login-form form button[type=submit]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 10px;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  -webkit-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  right: 0;
+  bottom: 0;
+  background: -webkit-gradient(linear, left bottom, left top, from(#09203f), to(#537895));
+  background: -webkit-linear-gradient(bottom, #09203f 0%, #537895 100%);
+  background: -o-linear-gradient(bottom, #09203f 0%, #537895 100%);
+  background: linear-gradient(to top, #09203f 0%, #537895 100%);
+}
+.login .container .remember-form {
+  position: relative;
+  margin-top: -30px;
+}
+.login .container .remember-form input[type=checkbox] {
+  margin-top: 9px;
+}
+.login .container .remember-form span {
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  top: 32px;
+  color: #3B3B3B;
+  margin-left: 15px;
+}
+.login .container .forget-pass {
+  position: absolute;
+  right: 0;
+  margin-top: 189px;
+}
+.login .container .forget-pass a {
+  font-size: 16px;
+  position: relative;
+  font-weight: normal;
+  color: #918F8F;
+}
+.login .container .forget-pass a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  border-radius: 100px;
+  background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+  background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+  background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
+  bottom: -4px;
+  left: 0;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0;
+  right: 0;
+}
+.login .container .forget-pass a:hover::after {
+  opacity: 1;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1680px) {
+  .bg-illustration {
+    width: 50%;
+    -webkit-animation: none;
+            animation: none;
+  }
+
+  .login {
+    width: 50%;
+  }
+}
+/* Display 12", iPad PRO Portrait, iPad landscape */
+@media only screen and (max-width: 1024px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  @-webkit-keyframes slideIn {
+    from {
+      left: -100%;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      left: -100%;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  .bg-illustration {
+    float: none;
+    background: url("https://i.ibb.co/rwncw7s/bg-mobile.png") center center;
+    background-size: cover;
+    -webkit-animation: slideIn 0.8s ease-in-out forwards;
+            animation: slideIn 0.8s ease-in-out forwards;
+    width: 100%;
+    height: 190px;
+    text-align: center;
+  }
+  .bg-illustration img {
+    width: 100px;
+    height: auto;
+    margin: 20px auto !important;
+    text-align: center;
+  }
+  .bg-illustration .burger-btn {
+    left: 33px;
+    top: 29px;
+    display: block;
+    position: absolute;
+  }
+  .bg-illustration .burger-btn span {
+    display: block;
+    height: 4px;
+    margin: 6px;
+    background-color: #fff;
+  }
+  .bg-illustration .burger-btn span:nth-child(1) {
+    width: 37px;
+  }
+  .bg-illustration .burger-btn span:nth-child(2) {
+    width: 28px;
+  }
+  .bg-illustration .burger-btn span:nth-child(3) {
+    width: 20px;
+  }
+
+  .login {
+    float: none;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .login .container {
+    -webkit-animation: slideIn 0.8s ease-in-out forwards;
+            animation: slideIn 0.8s ease-in-out forwards;
+    width: 85%;
+    float: none;
+  }
+  .login .container h1 {
+    font-size: 25px;
+    margin-top: 30px;
+  }
+  .login .container .login-form {
+    margin-top: 90px;
+  }
+  .login .container .login-form form input {
+    height: 45px;
+  }
+  .login .container .login-form form button[type=submit] {
+    height: 45px;
+    margin-top: 100px;
+  }
+  .login .container .login-form .remember-form {
+    position: relative;
+    margin-top: -14px;
+  }
+  .login .container .login-form .remember-form span {
+    font-size: 16px;
+    margin-top: 22px;
+    top: inherit;
+  }
+
+  .forget-pass {
+    position: absolute;
+    right: inherit;
+    left: 0;
+    bottom: -40px;
+    margin: 0 !important;
+  }
+  .forget-pass a {
+    font-size: 16px;
+    position: relative;
+    font-weight: normal;
+    color: #918F8F;
+  }
+  .forget-pass a::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    border-radius: 100px;
+    background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+    background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
+    background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
+    bottom: -4px;
+    left: 0;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    opacity: 0;
+    right: 0;
+  }
+  .forget-pass a:hover::after {
+    opacity: 1;
+  }
+}
+
+
+
+$color: #2194E0;
+
+@keyframes sheen {
+  0% {
+    transform: skewY(-45deg) translateX(0);
+  }
+  100% {
+    transform: skewY(-45deg) translateX(12.5em);
+  }
+}
+
+.wrapper {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button {
+  padding: 0.75em 2em;
+  text-align: center;
+  text-decoration: none;
+  color: $color;
+  border: 2px solid $color;
+  font-size: 24px;
+  display: inline-block;
+  border-radius: 0.3em;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    background-color: rgba(255,255,255,0.5);
+    height: 100%;
+    width: 3em;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -4.5em;
+    transform: skewX(-45deg) translateX(0);
+    transition: none;
+  }
+  &:hover {
+    background-color: $color;
+    color: #fff;
+    border-bottom: 4px solid darken($color, 10%);
+    &:before {
+      transform: skewX(-45deg) translateX(13.5em);
+     transition: all 0.5s ease-in-out;
+    }
+  }
+}
+
+
+</style>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+bea{
+font-family: 'Pacifico', cursive;
+}
+</style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="https://img.icons8.com/external-prettycons-flat-prettycons/28/000000/external-shopping-cart-shopping-prettycons-flat-prettycons-1.png"/>&ensp;521 Order System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">首頁</a>
+                </li>
+            </ul>
+
+
+            <ul class="navbar-nav mb-2 mb-lg-0 d-flex">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/">登出</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/menu/">菜單</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e9ecef;">
+    <div class="container-fluid">
+        <span class="navbar-brand">購物車</span>
+        <button class="btn btn-primary" id="toggle-btn">內用</button>
+    </div>
+</nav>
+
+
+
+
+<div class="container mt-5" id="shopping-cards-container">
+    <div class="row">
+        <!-- 操你媽 -->
+    </div>
+</div>
+
+
+
+<div class="fixed-bottom" style="background-color: #e9ecef; padding: 15px;">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div></div>
+        <div>
+            <span class="me-auto pe-2" id="totalp">總價: {{total_price}}$</span>
+            <a class="btn btn-primary" class="nav-link" href="/ordercompleted/123">送出訂單</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+
+    
+    const foodnameList = {{ foodname_list | safe }};
+    const priceList = {{ price_list | safe }};
+    
+    const container = document.getElementById("shopping-cards-container");
+
+        // 每兩個商品顯示在同一行
+        for (let i = 0; i < foodnameList.length; i += 2) {
+            // 創建新的row
+            const row = document.createElement("div");
+            row.classList.add("row", "mb-3");
+
+            // 添加兩個商品
+            for (let j = i; j < Math.min(i + 2, foodnameList.length); j++) {
+                const card = document.createElement("div");
+                card.classList.add("col-md-6");
+
+            card.innerHTML = `
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" >
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${foodnameList[j]}</h5>
+                                <p class="card-text"><small class="text-muted">${priceList[j]}$</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                row.appendChild(card);
+            }
+
+            container.appendChild(row);
+        }
+   
+
+</script>
+
+<script>
+    const total_price = {{ total_price | safe }};
+    alert(total_price);
+    const container = document.getElementById("totalp");
+    container.innerText = `總價: $${total_price}`;
+</script>
+
+<script>
+    let isDineIn = true; 
+
+    const toggleBtn = document.getElementById("toggle-btn");
+    const cartContent = document.getElementById("cart-content");
+
+    toggleBtn.addEventListener("click", function() {
+        isDineIn = !isDineIn;
+        if (isDineIn) {
+            toggleBtn.textContent = "內用";
+        } else {
+            toggleBtn.textContent = "外帶";
+        }
+
+    });
+</script>
+
+</body>
+</html>
