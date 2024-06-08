@@ -1,0 +1,29 @@
+    (1) Fix the error where the login function cannot read strings. (Located in OOP_Django-main\OOP_Django-main\webproject\webblog\views.py)
+    replace:
+        mycursor.execute('INSERT INTO [Order] VALUES (null , %s, %s, %s, "%s")' % (login_account, 0, 0, datetime.datetime.now()))
+        mycursor.execute('SELECT orderid FROM [Order] WHERE account = %s ORDER BY orderid DESC limit 1' % (login_account))
+        orderid = mycursor.fetchall()[0]
+    to:
+        cursor = connection.cursor()
+        sql = 'INSERT INTO [Order] (account, completed, takeout, time) VALUES (%s, %s, %s, %s)'
+        params = (login_account, 0, 0, datetime.datetime.now())
+        cursor.execute(sql, params)
+
+        cursor1 = connection.cursor()
+        sql = 'SELECT orderid FROM "Order" WHERE account = %s ORDER BY orderid DESC LIMIT 1'
+        params = (login_account,)
+        cursor1.execute(sql, params)
+
+        orderid = cursor1.fetchall()[0]
+
+    (2) Add a feature that allows entry to the admin page if the account is 'admin'.
+    replace (views.py - login_check(request)) to:
+            if acc == "admin":
+                return redirect('/change_menu/')
+            else:
+                return redirect('/menu/%s' % orderid)
+    add new function into views.py: 
+        def change_menu(request):
+            return render(request, "change_menu.html")
+    add new urlpatterns into urls.py (Located  in OOP_Django-main\OOP_Django-main\webproject\webproject\urls.py):
+        path('change_menu/', webblog.views.change_menu),

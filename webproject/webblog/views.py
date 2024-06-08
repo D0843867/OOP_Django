@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.db import connection
+from django.db import connection, transaction
 import datetime
 from webblog import models
 # Create your views here.
@@ -111,14 +111,69 @@ def add_order(request):
         mycursor.execute('INSERT INTO OrderDetail VALUES (null , %s, %s, %s)' % (orderid, foodid, amount))
     return redirect('/menu/%s' % orderid)
 
+# ======================change menu============================
+
+def change_menu(request):
+    foodlist = models.Food.objects.filter(visible=1)
+    return render(request, "change_menu.html", {'foodlist': foodlist})
+
+def update_menu(request):
+    if request.method == 'POST':
+        with transaction.atomic():  # 確保所有更改都在單一事務中進行
+            for key, value in request.POST.items():
+                if key.startswith('delete_'):
+                    food_id = key.split('_')[1]
+                    if value == 'on':
+                        models.Food.objects.filter(foodid=food_id).update(visible=0)
+                        continue
+
+                elif key.startswith('foodname_'):
+                    food_id = key.split('_')[1]
+                    picture_url = request.POST.get(f'picture_url_{food_id}')
+                    foodname = value
+                    price = request.POST.get(f'price_{food_id}')
+                    soldout = request.POST.get(f'soldout_{food_id}', 'off') == 'on'
+
+                    models.Food.objects.filter(foodid=food_id).update(
+                        picture_url=picture_url,
+                        foodname=foodname,
+                        price=price,
+                        amount=10,
+                        soldout=soldout
+                    )
+
+    return redirect('/change_menu/')
+
+def delete_menu(request):
+    foodid = request.POST.get('foodid')
+    # print('foodid:', foodid)
+    models.Food.objects.filter(foodid=foodid).update(visible=0)
+    return redirect('/change_menu/')
+
+def add_menu(request):
+    foodname = request.POST.get('foodname')
+    price = request.POST.get('price')
+    picture_url = request.POST.get('picture_url')
+    # print('foodname:', foodname)
+    # print('price:', price)
+    # print('picture_url:', picture_url)
+    models.Food(
+        foodname=foodname,
+        price=price,
+        visible=1,
+        soldout=0,
+        amount=10,  # 待刪
+        picture_url=picture_url
+    ).save()
+    return redirect('/change_menu/')
+
+#==============================================================
+
 def register(request):
     now = datetime.datetime.now()  # 現在時間
     context = {'now': now}
     return render(request,"register.html",context)
-def add_menu(request):
-    now = datetime.datetime.now()  # 現在時間
-    context = {'now': now}
-    return render(request,"add_menu.html",context)
+
 def order_list(request):
     now = datetime.datetime.now()  # 現在時間
     context = {'now': now}
@@ -166,11 +221,27 @@ def login_check(request):
     for acc, passw in mycursor.fetchall():
         print("acc", acc, "passw", passw)
         if login_account == acc and login_password == passw:
-            mycursor.execute('INSERT INTO [Order] VALUES (null , %s, %s, %s, "%s")' % (login_account, 0, 0, datetime.datetime.now()))
-            mycursor.execute('SELECT orderid FROM [Order] WHERE account = %s ORDER BY orderid DESC limit 1' % (login_account))
-            orderid = mycursor.fetchall()[0]
+
+            cursor = connection.cursor()
+            sql = 'INSERT INTO [Order] (account, completed, takeout, time) VALUES (%s, %s, %s, %s)'
+            params = (login_account, 0, 0, datetime.datetime.now())
+            cursor.execute(sql, params)
+
+            #mycursor.execute('INSERT INTO [Order] VALUES (null , %s, %s, %s, "%s")' % (login_account, 0, 0, datetime.datetime.now()))
+
+            cursor1 = connection.cursor()
+            sql = 'SELECT orderid FROM "Order" WHERE account = %s ORDER BY orderid DESC LIMIT 1'
+            params = (login_account,)
+            cursor1.execute(sql, params)
+
+            #mycursor.execute('SELECT orderid FROM [Order] WHERE account = %s ORDER BY orderid DESC limit 1' % (login_account))
+
+            orderid = cursor1.fetchall()[0]
             # context = {'orderid': orderid}
             # print(context)
             # return HttpResponse("登錄成功")
-            return redirect('/menu/%s' % orderid)
+            if acc == "admin":
+                return redirect('/change_menu/')
+            else:
+                return redirect('/menu/%s' % orderid)
     return HttpResponse("帳號或密碼錯誤")

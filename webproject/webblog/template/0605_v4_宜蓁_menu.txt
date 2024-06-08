@@ -1,4 +1,3 @@
-<!--0605版_宜蓁-->
 <!doctype html>
 <html lang="en">
 
@@ -21,8 +20,6 @@
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.min.css">
-
-    <!-- 底版:背景圖片 -->
     <head>
         <title>Order System</title>
 
@@ -36,8 +33,11 @@
                 background-attachment: scroll;  /* Adjust based on preference (scroll or fixed) */
                 background-position: center;
                 background-size: cover;
-<!--            background-image: url("https://pic0.sucaisucai.com/00/86/00286880_2.jpg");  /* Replace with your image path */-->
+<!--                background-image: url("https://pic0.sucaisucai.com/00/86/00286880_2.jpg");  /* Replace with your image path */-->
 <!--https://bpic.588ku.com/back_origin_min_pic/21/05/26/c9fcc8c2c4494c41722f8ba4d3124c1d.jpg-->
+
+
+
             }
             table {
                 background-color: rgba(255, 255, 255, .9);  /* Add white background with some transparency for tables */
@@ -307,3 +307,110 @@
 
 </html>
 
+<!--原始程式碼-->
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
+
+<!--    <title>Order System</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>點餐系統</h1>-->
+
+<!--    {% csrf_token %}-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>餐點名稱</th>-->
+<!--            <th>價格</th>-->
+<!--            <th>食物圖片</th>-->
+<!--            <th>選擇數量</th>-->
+<!--            <th>操作</th>-->
+<!--        </tr>-->
+<!--        {% for food in foodlist %}-->
+<!--        <tr>-->
+<!--            <td>{{food.1}}</td>-->
+<!--            <td>{{food.2}}</td>-->
+<!--            <td>{{food.5}}</td>-->
+<!--            <form method="post" action="/menu/add_order">{% csrf_token %}-->
+<!--                <td hidden>-->
+<!--                    <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <input type="number" name="amount" min="0" value="0">-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button type="submit" name="foodid" value="{{food.0}}">添加到購物車</button>-->
+<!--                </td>-->
+<!--            </form>-->
+<!--        </tr>-->
+<!--        {% endfor %}-->
+<!--    </table>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <h1>已點餐點</h1>-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>餐點名稱</th>-->
+<!--            <th>價格</th>-->
+<!--            <th>數量</th>-->
+<!--        </tr>-->
+<!--        {% for already in alreadylist %}-->
+<!--        <tr>-->
+<!--            <td>{{already.0}}</td>-->
+<!--            <td>{{already.2}}</td>-->
+<!--            <td>{{already.1}}</td>-->
+<!--            <td>-->
+<!--                <form name="Form1" action="/menu/drop_food/" method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <button type="submit">刪除</button>-->
+<!--                <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--                <input type="hidden" name="orderdetailid" value={{already.3}} >-->
+<!--            </form>-->
+<!--            </td>-->
+<!--            <td hidden>-->
+<!--                <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--            </td>-->
+
+<!--            </form>-->
+<!--        </tr>-->
+
+<!--        {% endfor %}-->
+<!--    </table>-->
+<!--<h2>Total Price：{{total_price}}</h2>-->
+<!--<br>-->
+<!--<h2>-->
+<!--{% if takeout == 0 %}-->
+<!--    <form name="Form1" action="/menu/set_takeout/" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit">改成外帶</button>-->
+<!--        <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--        <input type="hidden" name="takeout" value=1>-->
+<!--    </form>-->
+
+<!--{% elif takeout == 1 %}-->
+<!--    <form name="Form1" action="/menu/set_takeout/" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit" name="orderid" value={{orderid}>改成內用</button>-->
+<!--        <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--        <input type="hidden" name="takeout" value=0>-->
+<!--    </form>-->
+<!--{% endif %}-->
+<!--    <form name="Form" action="/ordercompleted/" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit" name="orderid" value={{orderid}>送出訂單</button>-->
+<!--        <input type="hidden" name="orderid" value={{orderid}}>-->
+<!--    </form>-->
+<!--</h2>-->
+<!--<br>-->
+
+<!--</body>-->
+<!--</html>-->

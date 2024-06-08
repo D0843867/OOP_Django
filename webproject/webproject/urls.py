@@ -35,4 +35,9 @@ urlpatterns = [
     path('menu/drop_food/', webblog.views.drop_food),
     path('menu/change_amount/', webblog.views.change_amount),
     path('ordercompleted/', webblog.views.ordercompleted),
+
+    path('change_menu/', webblog.views.change_menu),
+    path('change_menu/update_menu/', webblog.views.update_menu),
+    path('change_menu/delete_menu/', webblog.views.delete_menu),
+    path('change_menu/add_menu/', webblog.views.add_menu),
 ]
