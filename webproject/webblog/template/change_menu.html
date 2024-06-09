@@ -94,7 +94,7 @@
             <tbody>
                 {% for food in foodlist %}
                 <tr>
-                    <td><img src="{{ food.picture_url }}" class="img-fluid" style="max-width: 100px;"></td>
+                    <td><img src="{{ food.picture_url }}" class="img-fluid" style="width: 125px;"></td>
                     <td><input type="text" name="picture_url_{{ food.foodid }}" value="{{ food.picture_url }}" class="form-control"></td>
                     <td><input type="text" name="foodname_{{ food.foodid }}" value="{{ food.foodname }}" class="form-control"></td>
                     <td><input type="number" name="price_{{ food.foodid }}" value="{{ food.price }}" class="form-control"></td>

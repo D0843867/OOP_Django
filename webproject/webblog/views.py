@@ -14,6 +14,7 @@ def login(request):
     now = datetime.datetime.now()  # 現在時間
     context = {'now': now}
     return render(request,"login.html",context)
+
 def chackorder(orderid):
     # print(orderid)
     mycursor.execute('SELECT takeout FROM [Order] WHERE orderid = %s' % (orderid))
